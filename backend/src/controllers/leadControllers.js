@@ -57,6 +57,16 @@ const createLead = async (req, res) => {
             });
         }
 
+        //check if email already exists
+        const emailExist = await lead.checkEmailExists(email);
+
+        if (emailExist) {
+            return res.status(400).json({
+                success: false,
+                message: "Email already exists!"
+            });
+        }
+
         const data = await lead.createNewLead({ name, email, mobile, company, source, status });
 
         return res.status(201).json({
