@@ -42,9 +42,8 @@ const createLead = async (req, res) => {
         const mobileRegex = /^\d{10}$/;
         if (!mobileRegex.test(mobile)) {
             return res.status(400).json({
-                success: true,
-                message: "New Lead Created Successfully",
-                data: data
+                success: false,
+                message: "Mobile Number should be 10-digits only"
             });
         }
 
