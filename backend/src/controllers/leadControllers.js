@@ -57,9 +57,11 @@ const createLead = async (req, res) => {
         }
 
         const data = await lead.createNewLead();
+
         return res.status(201).json({
             success: true,
-            message: "New Lead Created",
+            message: "Created New Lead Successfully",
+            data: data
         });
     } catch (error) {
         console.error(error);
