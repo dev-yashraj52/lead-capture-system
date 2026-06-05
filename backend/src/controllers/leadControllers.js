@@ -3,13 +3,15 @@ const lead = require('../models/leadModels.js');
 const getLead = async (req, res) => {
     try {
         const data = await lead.readLead();
-        console.log(data);
         return res.status(200).json({
-            message: "Request Accepted"
+            success: true,
+            message: "Request Accepted",
+            data: data
         });
     } catch (error) {
         console.error(error);
         return res.status(500).json({
+            success: false,
             message: "Database Error"
         });
     }
