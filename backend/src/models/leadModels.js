@@ -18,8 +18,15 @@ const checkEmailExists = async (email) => {
     return result.length > 0;
 }
 
+const updateLeadStatus = async ({ id, status }) => {
+    const query = "UPDATE leads SET status = ? WHERE id = ?";
+    const [result] = await db.promise().query(query);
+    return result;
+}
+
 module.exports = {
     readLead,
     createNewLead,
-    checkEmailExists
+    checkEmailExists,
+    updateLeadStatus
 };
