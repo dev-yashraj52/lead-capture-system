@@ -24,9 +24,16 @@ const updateLeadStatus = async ({ id, status }) => {
     return result;
 }
 
+const deleteLead = async (id) => {
+    const query = "DELETE FROM leads WHERE id = ?";
+    const [result] = await db.promise().query(query, id);
+    return result;
+}
+
 module.exports = {
     readLead,
     createNewLead,
     checkEmailExists,
-    updateLeadStatus
+    updateLeadStatus,
+    deleteLead
 };

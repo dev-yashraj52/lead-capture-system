@@ -117,7 +117,7 @@ const updateLeadStatusById = async (req, res) => {
             });
         }
 
-        return res.status(201).json({
+        return res.status(200).json({
             success: true,
             message: "Lead Status Updated Successfully",
             data: data
@@ -132,7 +132,31 @@ const updateLeadStatusById = async (req, res) => {
     }
 }
 const deleteLeadById = async (req, res) => {
-    res.send("deleteLeadById");
+    try {
+        const id = req.params.id;
+
+        const data = await lead.deleteLead(id);
+
+        if (data.affectedRows === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No such Lead Found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Lead Deleted Successfully",
+            data: data
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Database Error"
+        });
+    }
 }
 
 module.exports = {
