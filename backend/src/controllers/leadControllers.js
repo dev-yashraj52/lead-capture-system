@@ -31,6 +31,14 @@ const createLead = async (req, res) => {
             });
         }
 
+        //name validation if not string and if whitespaces
+        if (typeof name !== 'string' || name.trim() === '') {
+            return res.status(400).json({
+                success: false,
+                message: "Name should be non-empty string"
+            });
+        }
+
         //email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
