@@ -82,7 +82,7 @@ const createLead = async (req, res) => {
         });
     }
 }
-const updateLeadById = async (req, res) => {
+const updateLeadStatusById = async (req, res) => {
     res.send("updateLeadById");
 }
 const deleteLeadById = async (req, res) => {
@@ -92,6 +92,6 @@ const deleteLeadById = async (req, res) => {
 module.exports = {
     getLead,
     createLead,
-    updateLeadById,
+    updateLeadStatusById,
     deleteLeadById
 };
