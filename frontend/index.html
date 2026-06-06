@@ -44,6 +44,57 @@
             </div>
         </div>
     </div>
+
+    <div class="leadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Lead</h3>
+                <span class="close-modal" id="closeModalBtn">&times;</span>
+            </div>
+            <form id="leadForm" novalidate>
+                <div class="form-group">
+                    <label for="leadName">Name *</label>
+                    <input type="text" id="leadName" required>
+                    <span class="error-msg" id="nameError">Name is required</span>
+                </div>
+                <div class="form-group">
+                    <label for="leadEmail">Email *</label>
+                    <input type="email" id="leadEmail" required>
+                    <span class="error-msg" id="emailError">Please enter a valid email</span>
+                </div>
+                <div class="form-group">
+                    <label for="leadMobile">Mobile *</label>
+                    <input type="tel" id="leadMobile" required>
+                    <span class="error-msg" id="mobileError">Mobile number is required</span>
+                </div>
+                <div class="form-group">
+                    <label for="leadCompany">Company *</label>
+                    <input type="text" id="leadCompany" required>
+                    <span class="error-msg" id="companyError">Company name is required</span>
+                </div>
+                <div class="form-group">
+                    <label for="leadSource">Source *</label>
+                    <input type="text" id="leadCompany" required>
+                    <span class="error-msg" id="companyError">Source is required</span>
+                </div>
+                <div class="form-group">
+                    <label for="leadStatus">Status</label>
+                    <select id="leadStatus">
+                        <option value="new">New</option>
+                        <option value="contacted">Contacted</option>
+                        <option value="qualified">Qualified</option>
+                        <option value="lost">Lost</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveBtn">Save Lead</button>
+                </div>
+        </div>
+        </form>
+    </div>
+    </div>
 </body>
 
 </html>
