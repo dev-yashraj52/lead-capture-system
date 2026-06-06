@@ -110,6 +110,13 @@ const updateLeadStatusById = async (req, res) => {
 
         const data = await lead.updateLeadStatus({ id, status: statusString });
 
+        if (data.affectedRows === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No such Lead Found"
+            });
+        }
+
         return res.status(201).json({
             success: true,
             message: "Lead Status Updated Successfully",
