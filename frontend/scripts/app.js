@@ -90,3 +90,7 @@ async function renderLeads() {
     }
 
 }
+
+async function handleSaveStatus(leadId, newStatus, buttonElement) {
+    console.log(`Id: ${leadId}, New Status: ${newStatus}, Button: ${buttonElement}`)
+}
