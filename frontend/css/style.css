@@ -52,6 +52,11 @@ body {
     transition: background 0.2s ease;
 }
 
+.btn:disabled,
+.btn:disabled:hover {
+    background-color: #999999;
+}
+
 .btn-primary {
     background-color: #059669;
     color: white;
