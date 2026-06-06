@@ -28,3 +28,36 @@ body {
     padding-bottom: 20px;
     margin-bottom: 20px;
 }
+
+.search-box {
+    display: flex;
+    gap: 10px
+}
+
+.search-box input {
+    width: 300px;
+    padding: 8px 12px;
+    border: 1px solid #c7bbbb;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+.btn-primary {
+    background-color: rgb(15, 143, 100);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: rgb(11, 100, 71);
+    ;
+}
