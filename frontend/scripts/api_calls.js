@@ -14,8 +14,6 @@ export async function loadLeads() {
 }
 
 export async function updateLeadStatus(id, { status }) {
-    console.log(`http://localhost:3000/leads/${id}/status`);
-
     try {
         const response = await fetch(
             `http://localhost:3000/leads/${id}/status`, {

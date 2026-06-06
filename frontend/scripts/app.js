@@ -96,9 +96,10 @@ async function handleSaveStatus(leadId, newStatus, buttonElement) {
         buttonElement.innerText = "Saving...";
         buttonElement.disabled = true;
 
-        await API.updateLeadStatus(leadId, { status: newStatus });
+        //added delay for UX 
+        await new Promise(resolve => setTimeout(resolve, 250));
 
-        console.log(`Saved Lead ${leadId} with new status: ${newStatus}`);
+        await API.updateLeadStatus(leadId, { status: newStatus });
 
         buttonElement.innerText = "Save";
     } catch (error) {
