@@ -102,6 +102,13 @@ tr:hover {
     background-color: #d4edff;
 }
 
+.no-leads-message {
+    text-align: center;
+    padding: 40px;
+    color: #718096;
+    font-size: 16px;
+}
+
 /* Modals */
 .modal {
     display: none;
