@@ -92,5 +92,19 @@ async function renderLeads() {
 }
 
 async function handleSaveStatus(leadId, newStatus, buttonElement) {
+    try {
+        buttonElement.innerText = "Saving...";
+        buttonElement.disabled = true;
+
+        await API.updateLeadStatus(leadId, { status: newStatus });
+
+        console.log(`Saved Lead ${leadId} with new status: ${newStatus}`);
+
+        buttonElement.innerText = "Save";
+    } catch (error) {
+        alert("Failed to save status. Try again.");
+        buttonElement.innerText = "Save";
+        buttonElement.disabled = false;
+    }
     console.log(`Id: ${leadId}, New Status: ${newStatus}, Button: ${buttonElement}`)
 }
