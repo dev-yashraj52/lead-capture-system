@@ -51,13 +51,35 @@ async function renderLeads() {
             <td>${lead.mobile}</td>
             <td>${lead.company}</td>
             <td>${lead.source}</td>
-            <td>${lead.status}</td>
             <td>
-                <button class="btn btn-primary btn-small" onclick="editLead('${lead.id}')" disabled>Edit</button>
+                <select class="status-dropdown">
+                    <option value="new" ${lead.status === 'new' ? 'selected' : ''}>New</option>
+                    <option value="contacted" ${lead.status === 'contacted' ? 'selected' : ''}>Contacted</option>
+                    <option value="qualified" ${lead.status === 'qualified' ? 'selected' : ''}>Qualified</option>
+                    <option value="lost" ${lead.status === 'lost' ? 'selected' : ''}>Lost</option>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-primary btn-small save-btn" disabled>Save</button>
             </td>
             `;
 
+            const dropdown = tr.querySelector('.status-dropdown');
+            const saveButton = tr.querySelector('.save-btn');
+
+            dropdown.addEventListener('change', () => {
+                saveButton.disabled = false; // Enable the save button for this row only!
+            });
+
+            saveButton.addEventListener('click', async () => {
+                const selectedStatus = dropdown.value;
+
+                await handleSaveStatus(lead.id, selectedStatus, saveButton);
+            });
+
             leadsTableBody.appendChild(tr);
+
+
         });
 
 
