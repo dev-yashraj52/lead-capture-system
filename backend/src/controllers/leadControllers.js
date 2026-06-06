@@ -86,17 +86,18 @@ const createLead = async (req, res) => {
 const updateLeadStatusById = async (req, res) => {
     try {
         const status = req.body.status || 'new';
+        const statusString = String(status).toLowerCase();
 
         //status validation
         const allowedStatus = ['new', 'contacted', 'qualified', 'lost'];
-        if (status && !allowedStatus.includes(status.toLowerCase())) {
+        if (statusString && !allowedStatus.includes(statusString)) {
             return res.status(400).json({
                 success: false,
                 message: "Status can only be New, Contacted, Qualified and Lost"
             });
         }
 
-        const data = await lead.updateLeadStatus({ id, status });
+        const data = await lead.updateLeadStatus({ id, statusString });
 
         return res.status(201).json({
             success: true,
