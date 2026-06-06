@@ -70,6 +70,11 @@ body {
     background-color: #1a44a0;
 }
 
+.btn-small {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
 .action-bar {
     margin-bottom: 20px;
     display: flex;
