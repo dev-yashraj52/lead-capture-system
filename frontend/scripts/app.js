@@ -15,3 +15,7 @@ function openModal() {
 function closeModal() {
     leadModal.style.display = "none";
 }
+
+window.onclick = function (event) {
+    if (event.target == leadModal) closeModal();
+}
