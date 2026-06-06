@@ -22,6 +22,8 @@ const createLead = async (req, res) => {
         const { name, email, mobile, company, source } = req.body;
         const status = req.body.status || 'new';
         const statusString = String(status).toLowerCase();
+        console.log(status);
+        console.log(statusString);
 
         //validation for required fields if empty
         if (!name || !email || !mobile) {
@@ -76,7 +78,7 @@ const createLead = async (req, res) => {
             });
         }
 
-        const data = await lead.createNewLead({ name, email, mobile, company, source, statusString });
+        const data = await lead.createNewLead({ name, email, mobile, company, source, status: statusString });
 
         return res.status(201).json({
             success: true,
@@ -106,7 +108,7 @@ const updateLeadStatusById = async (req, res) => {
             });
         }
 
-        const data = await lead.updateLeadStatus({ id, statusString });
+        const data = await lead.updateLeadStatus({ id, status: statusString });
 
         return res.status(201).json({
             success: true,
