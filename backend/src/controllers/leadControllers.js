@@ -21,6 +21,7 @@ const createLead = async (req, res) => {
     try {
         const { name, email, mobile, company, source } = req.body;
         const status = req.body.status || 'new';
+        const statusString = String(status).toLowerCase();
 
         //validation for required fields if empty
         if (!name || !email || !mobile) {
@@ -50,7 +51,7 @@ const createLead = async (req, res) => {
 
         //validation if status is not these four options
         const allowedStatus = ['new', 'contacted', 'qualified', 'lost'];
-        if (status && !allowedStatus.includes(status.toLowerCase())) {
+        if (statusString && !allowedStatus.includes(statusString)) {
             return res.status(400).json({
                 success: false,
                 message: "Status can only be New, Contacted, Qualified and Lost"
@@ -67,7 +68,7 @@ const createLead = async (req, res) => {
             });
         }
 
-        const data = await lead.createNewLead({ name, email, mobile, company, source, status });
+        const data = await lead.createNewLead({ name, email, mobile, company, source, statusString });
 
         return res.status(201).json({
             success: true,
