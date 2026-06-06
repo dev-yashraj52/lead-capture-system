@@ -20,7 +20,7 @@ const checkEmailExists = async (email) => {
 
 const updateLeadStatus = async ({ id, status }) => {
     const query = "UPDATE leads SET status = ? WHERE id = ?";
-    const [result] = await db.promise().query(query);
+    const [result] = await db.promise().query(query, [status, id]);
     return result;
 }
 

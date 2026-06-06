@@ -93,6 +93,7 @@ const createLead = async (req, res) => {
 }
 const updateLeadStatusById = async (req, res) => {
     try {
+        const id = req.params.id;
         const status = req.body.status || 'new';
         const statusString = String(status).toLowerCase();
 
