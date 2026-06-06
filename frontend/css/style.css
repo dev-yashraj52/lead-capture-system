@@ -69,3 +69,35 @@ body {
 .btn-secondary:hover {
     background-color: #1a44a0;
 }
+
+.action-bar {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th,
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgb(226, 226, 226);
+}
+
+th {
+    background-color: #f0f7fc;
+    color: #000000;
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: #d4edff;
+}
