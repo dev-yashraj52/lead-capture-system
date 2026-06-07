@@ -24,6 +24,7 @@ cancelBtn.addEventListener('click', closeModal);
 leadForm.addEventListener('submit', handleFormSubmit)
 
 function openModal() {
+    clearValidationErrors();
     leadForm.reset();
     leadModal.style.display = "flex";
 }
@@ -44,6 +45,7 @@ function handleFormSubmit(e) {
 
 function validateForm() {
     let isValid = true;
+    clearValidationErrors();
 
     if (!nameInput.value.trim()) {
         showError(nameInput, "Name is Required!");
@@ -56,6 +58,11 @@ function validateForm() {
 function showError(inputElement, errorMessage) {
     inputElement.parentElement.classList.add('invalid');
     inputElement.parentElement.querySelector('.error-msg').textContent = errorMessage;
+}
+
+function clearValidationErrors() {
+    const groups = leadForm.querySelectorAll('.form-group');
+    groups.forEach(group => group.classList.remove('invalid'));
 }
 
 //API call functions
