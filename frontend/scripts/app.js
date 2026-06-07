@@ -223,6 +223,7 @@ async function saveNewLead(leadData) {
         if (response.success == true) {
             alert(response.message);
             closeModal();
+            renderLeads();
         }
         if (response.success == false) {
             showError(emailInput, response.message)
