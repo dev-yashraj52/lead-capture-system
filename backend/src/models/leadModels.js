@@ -1,7 +1,7 @@
 const db = require('../config/db.js')
 
 const readLead = async () => {
-    const query = "SELECT * FROM leads";
+    const query = "SELECT * FROM leads ORDER BY created_at DESC";
     const [result] = await db.promise().query(query);
     return result;
 };
