@@ -74,6 +74,12 @@ function validateForm() {
         }
     }
 
+    const allowedStatus = ['new', 'contacted', 'qualified', 'lost'];
+    if (!allowedStatus.includes(statusInput.value.trim())) {
+        showError(statusInput, "Status can be New, Contacted, Qualified or Lost only");
+        isValid = false;
+    }
+
 
     return isValid;
 }
