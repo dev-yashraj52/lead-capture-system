@@ -13,6 +13,27 @@ export async function loadLeads() {
 
 }
 
+export async function createNewLead({ name, email, mobile, company, source, status }) {
+    try {
+        const response = await fetch(
+            `http://localhost:3000/leads`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, email, mobile, company, source, status })
+        }
+        );
+
+        const result = await response.json();
+        return result;
+
+    } catch (error) {
+        console.error("Database Connection Refused", error);
+        throw error;
+    }
+}
+
 export async function updateLeadStatus(id, { status }) {
     try {
         const response = await fetch(

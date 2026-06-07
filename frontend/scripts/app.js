@@ -9,7 +9,7 @@ const leadsTable = document.getElementById('leadsTable');
 const noLeadsMessage = document.getElementById('noLeadsMessage');
 const leadsTableBody = document.getElementById('leadsTableBody');
 
-const leadIdInput = document.getElementById('leadId');
+//Form References
 const nameInput = document.getElementById('leadName');
 const emailInput = document.getElementById('leadEmail');
 const mobileInput = document.getElementById('leadMobile');
@@ -41,6 +41,17 @@ function handleFormSubmit(e) {
     e.preventDefault();
 
     if (!validateForm()) return;
+
+    const leadData = {
+        name: nameInput.value.trim(),
+        email: emailInput.value.trim(),
+        mobile: mobileInput.value.trim(),
+        company: companyInput.value.trim(),
+        status: statusInput.value
+    }
+
+    saveNewLead(leadData);
+
 }
 
 function validateForm() {
@@ -79,7 +90,6 @@ function validateForm() {
         showError(statusInput, "Status can be New, Contacted, Qualified or Lost only");
         isValid = false;
     }
-
 
     return isValid;
 }
@@ -161,7 +171,7 @@ async function renderLeads() {
         console.log(leads);
 
     } catch (error) {
-        console.error("Database Error", error);
+        alert("Failed to Render Data");
     }
 
 }
@@ -203,4 +213,18 @@ async function handleDeleteLead(leadId, currentLead, buttonElement) {
         buttonElement.disabled = false;
     }
 
+}
+
+async function saveNewLead(leadData) {
+    try {
+        const response = await API.createNewLead(leadData);
+
+        if (response.success == false) {
+            showError(emailInput, response.message)
+            console.log(response.message)
+        }
+        console.log(response);
+    } catch (error) {
+        alert("Failed to Save New Lead!", error);
+    }
 }
