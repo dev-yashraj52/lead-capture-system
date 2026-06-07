@@ -125,6 +125,51 @@ function showNotification(message, isSuccess = true) {
     }, 3000);
 }
 
+function refreshLeads(lead, id) {
+    const tr = document.createElement('tr');
+
+    tr.innerHTML = `
+            <td>${new Date().toLocaleDateString()}</td>
+            <td><strong>${lead.name}</strong></td>
+            <td>${lead.email}</td>
+            <td>${lead.mobile}</td>
+            <td>${lead.company ?? "-"}</td>
+            <td>${lead.source ?? "-"}</td>
+            <td>
+                <select class="status-dropdown">
+                    <option value="new" ${lead.status === 'new' ? 'selected' : ''}>New</option>
+                    <option value="contacted" ${lead.status === 'contacted' ? 'selected' : ''}>Contacted</option>
+                    <option value="qualified" ${lead.status === 'qualified' ? 'selected' : ''}>Qualified</option>
+                    <option value="lost" ${lead.status === 'lost' ? 'selected' : ''}>Lost</option>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-primary btn-small save-btn" disabled>Save</button>
+                <button class="btn btn-warning btn-small delete-btn">Delete</button>
+            </td>
+            `;
+
+    const statusDropdown = tr.querySelector('.status-dropdown');
+    const saveButton = tr.querySelector('.save-btn');
+    const deleteButton = tr.querySelector('.delete-btn');
+
+    statusDropdown.addEventListener('change', () => {
+        saveButton.disabled = false;
+    });
+
+    saveButton.addEventListener('click', async () => {
+        const selectedStatus = statusDropdown.value;
+
+        await handleSaveStatus(id, selectedStatus, saveButton);
+    });
+
+    deleteButton.addEventListener('click', async () => {
+        await handleDeleteLead(id, tr, deleteButton);
+    })
+
+    leadsTableBody.insertBefore(tr, leadsTableBody.firstChild);
+}
+
 //API call functions
 async function renderLeads(searchTerm = "") {
     try {
@@ -263,7 +308,8 @@ async function saveNewLead(leadData) {
         if (response.success) {
             closeModal();
             showNotification(response.message, response.success);
-            // renderLeads();
+            console.log(response);
+            refreshLeads(leadData, response.data.insertId);
         } else {
             showNotification(response.message, response.success);
             showError(emailInput, response.message);
