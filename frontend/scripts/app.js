@@ -185,14 +185,17 @@ async function renderLeads(searchTerm = "") {
 
             leadsTableBody.appendChild(tr);
 
-
         });
 
-
-        console.log(leads);
+        if (response.success) {
+            showNotification(response.message, response.success);
+        } else {
+            showNotification(response.message, response.success);
+        }
 
     } catch (error) {
-        alert("Failed to Render Data");
+        showNotification("Failed to Render Data", false);
+        console.error(error);
     }
 
 }
@@ -205,13 +208,22 @@ async function handleSaveStatus(leadId, newStatus, buttonElement) {
         //added delay for UX 
         await new Promise(resolve => setTimeout(resolve, 250));
 
-        await API.updateLeadStatus(leadId, { status: newStatus });
+        const response = await API.updateLeadStatus(leadId, { status: newStatus });
 
-        buttonElement.innerText = "Save";
+        if (response.success) {
+            buttonElement.innerText = "Save";
+            showNotification(response.message, response.success);
+        } else {
+            buttonElement.innerText = "Save";
+            buttonElement.disabled = false;
+            showNotification(response.message, response.success);
+        }
+
     } catch (error) {
-        alert("Failed to save status. Try again.");
+        showNotification("Failed to save status", false);
         buttonElement.innerText = "Save";
         buttonElement.disabled = false;
+        console.error(error);
     }
 }
 
@@ -223,15 +235,23 @@ async function handleDeleteLead(leadId, currentLead, buttonElement) {
         //added delay for UX 
         await new Promise(resolve => setTimeout(resolve, 250));
 
-        await API.deleteLead(leadId);
+        const response = await API.deleteLead(leadId);
 
-        buttonElement.disabled = false;
-        buttonElement.innerText = "Delete";
-        currentLead.remove();
+        if (response.success) {
+            buttonElement.disabled = false;
+            buttonElement.innerText = "Delete";
+            showNotification(response.message, response.success);
+            currentLead.remove();
+        } else {
+            showNotification(response.message, response.success);
+        }
+
+
     } catch (error) {
-        alert("Failed to delete status. Try again.");
+        showNotification("Failed to delete status", false);
         buttonElement.innerText = "Delete";
         buttonElement.disabled = false;
+        throw error;
     }
 
 }
@@ -242,14 +262,16 @@ async function saveNewLead(leadData) {
 
         if (response.success) {
             closeModal();
-            showNotification(response.message, true)
-            renderLeads();
+            showNotification(response.message, response.success);
+            // renderLeads();
         } else {
-            showError(emailInput, response.message)
-            console.log(response.message)
+            showNotification(response.message, response.success);
+            showError(emailInput, response.message);
+            console.log(response.message);
         }
         console.log(response);
     } catch (error) {
-        alert("Failed to Save New Lead!", error);
+        showNotification("Failed to Save New Lead", false);
+        throw error;
     }
 }
