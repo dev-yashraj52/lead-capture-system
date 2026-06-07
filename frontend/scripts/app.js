@@ -9,9 +9,19 @@ const leadsTable = document.getElementById('leadsTable');
 const noLeadsMessage = document.getElementById('noLeadsMessage');
 const leadsTableBody = document.getElementById('leadsTableBody');
 
+const leadIdInput = document.getElementById('leadId');
+const nameInput = document.getElementById('leadName');
+const emailInput = document.getElementById('leadEmail');
+const mobileInput = document.getElementById('leadMobile');
+const companyInput = document.getElementById('leadCompany');
+const sourceInput = document.getElementById('leadSource');
+const statusInput = document.getElementById('leadStatus');
+
 document.addEventListener('DOMContentLoaded', renderLeads);
-addLeadBtn.addEventListener('click', () => openModal());
-closeModalButton.addEventListener('click', () => closeModal());
+addLeadBtn.addEventListener('click', openModal);
+closeModalButton.addEventListener('click', closeModal);
+cancelBtn.addEventListener('click', closeModal);
+leadForm.addEventListener('submit', handleFormSubmit)
 
 function openModal() {
     leadForm.reset();
@@ -26,6 +36,28 @@ window.onclick = function (event) {
     if (event.target == leadModal) closeModal();
 }
 
+function handleFormSubmit(e) {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+}
+
+function validateForm() {
+    let isValid = true;
+
+    if (!nameInput.value.trim()) {
+        showError(nameInput);
+        isValid = false;
+    }
+
+    return isValid;
+}
+
+function showError(inputElement) {
+    inputElement.parentElement.classList.add('invalid');
+}
+
+//API call functions
 async function renderLeads() {
     try {
         const response = await API.loadLeads();
