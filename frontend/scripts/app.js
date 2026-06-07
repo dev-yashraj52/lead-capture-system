@@ -52,6 +52,19 @@ function validateForm() {
         isValid = false;
     }
 
+    if (!emailInput.value.trim()) {
+        showError(emailInput, "Email is Required!");
+        isValid = false;
+    } else {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailInput.value.trim())) {
+            showError(emailInput, "Invalid Email Address!");
+            isValid = false;
+        }
+    }
+
+
+
     return isValid;
 }
 
