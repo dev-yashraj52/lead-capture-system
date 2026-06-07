@@ -129,8 +129,8 @@ async function renderLeads() {
             <td><strong>${lead.name}</strong></td>
             <td>${lead.email}</td>
             <td>${lead.mobile}</td>
-            <td>${lead.company}</td>
-            <td>${lead.source}</td>
+            <td>${lead.company ?? "-"}</td>
+            <td>${lead.source ?? "-"}</td>
             <td>
                 <select class="status-dropdown">
                     <option value="new" ${lead.status === 'new' ? 'selected' : ''}>New</option>
@@ -150,7 +150,7 @@ async function renderLeads() {
             const deleteButton = tr.querySelector('.delete-btn');
 
             statusDropdown.addEventListener('change', () => {
-                saveButton.disabled = false; // Enable the save button for this row only!
+                saveButton.disabled = false;
             });
 
             saveButton.addEventListener('click', async () => {
