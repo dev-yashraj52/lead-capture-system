@@ -111,6 +111,20 @@ function executeSearch() {
     renderLeads(searchInput.value);
 }
 
+function showNotification(message, isSuccess = true) {
+    const toast = document.getElementById('toastNotification');
+    const toastMsg = document.getElementById('toastMessage');
+
+    toastMsg.textContent = message;
+
+    toast.style.backgroundColor = isSuccess ? '#2ecc71' : '#e74c3c';
+    toast.style.display = 'block';
+
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 3000);
+}
+
 //API call functions
 async function renderLeads(searchTerm = "") {
     try {
@@ -226,12 +240,11 @@ async function saveNewLead(leadData) {
     try {
         const response = await API.createNewLead(leadData);
 
-        if (response.success == true) {
-            alert(response.message);
+        if (response.success) {
             closeModal();
+            showNotification(response.message, true)
             renderLeads();
-        }
-        if (response.success == false) {
+        } else {
             showError(emailInput, response.message)
             console.log(response.message)
         }
