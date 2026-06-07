@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 require('dotenv').config({ path: '.env' });
@@ -9,6 +10,12 @@ app.use(express.json());
 
 app.use(cors());
 app.use(leadRoutes);
+
+app.use(
+    express.static(
+        path.join(__dirname, "../frontend")
+    )
+);
 
 app.listen(process.env.PORT, () => {
     console.log(`Listening on ${process.env.PORT}`);
