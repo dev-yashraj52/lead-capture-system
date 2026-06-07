@@ -46,8 +46,9 @@ function handleFormSubmit(e) {
         name: nameInput.value.trim(),
         email: emailInput.value.trim(),
         mobile: mobileInput.value.trim(),
-        company: companyInput.value.trim(),
-        status: statusInput.value
+        company: companyInput.value.trim() || null,
+        source: sourceInput.value.trim() || null,
+        status: statusInput.value || 'new'
     }
 
     saveNewLead(leadData);
