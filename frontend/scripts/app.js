@@ -63,6 +63,16 @@ function validateForm() {
         }
     }
 
+    if (!mobileInput.value.trim()) {
+        showError(mobileInput, "Mobile Number is Required!");
+        isValid = false;
+    } else {
+        const mobileRegex = /^\d{10}$/;
+        if (!mobileRegex.test(mobileInput.value.trim())) {
+            showError(mobileInput, "Invalid Mobile Number!");
+            isValid = false;
+        }
+    }
 
 
     return isValid;
