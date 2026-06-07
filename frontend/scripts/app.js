@@ -17,11 +17,13 @@ const companyInput = document.getElementById('leadCompany');
 const sourceInput = document.getElementById('leadSource');
 const statusInput = document.getElementById('leadStatus');
 
-document.addEventListener('DOMContentLoaded', renderLeads);
+document.addEventListener('DOMContentLoaded', () => { renderLeads("") });
 addLeadBtn.addEventListener('click', openModal);
 closeModalButton.addEventListener('click', closeModal);
 cancelBtn.addEventListener('click', closeModal);
-leadForm.addEventListener('submit', handleFormSubmit)
+leadForm.addEventListener('submit', handleFormSubmit);
+
+searchBtn.addEventListener('click', executeSearch);
 
 function openModal() {
     clearValidationErrors();
@@ -105,13 +107,17 @@ function clearValidationErrors() {
     groups.forEach(group => group.classList.remove('invalid'));
 }
 
+function executeSearch() {
+    renderLeads(searchInput.value);
+}
+
 //API call functions
-async function renderLeads() {
+async function renderLeads(searchTerm = "") {
     try {
-        const response = await API.loadLeads();
+        const response = await API.loadLeads(searchTerm);
         let leads = response.data;
 
-        if (leads.length === 18) {
+        if (leads.length === 0) {
             leadsTable.style.display = "none";
             noLeadsMessage.style.display = "block";
             return;

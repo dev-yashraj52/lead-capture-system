@@ -1,8 +1,10 @@
 const db = require('../config/db.js')
 
-const readLead = async () => {
-    const query = "SELECT * FROM leads ORDER BY created_at DESC";
-    const [result] = await db.promise().query(query);
+const readLead = async (searchTerm = "") => {
+    const formattedSearch = `%${searchTerm}%`;
+
+    const query = "SELECT * FROM leads WHERE name LIKE ? OR email LIKE ? OR company LIKE ? OR mobile LIKE ? ORDER BY created_at DESC";
+    const [result] = await db.promise().query(query, [formattedSearch, formattedSearch, formattedSearch, formattedSearch]);
     return result;
 };
 

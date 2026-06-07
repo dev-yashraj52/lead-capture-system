@@ -1,7 +1,7 @@
-export async function loadLeads() {
+export async function loadLeads(search = "") {
     try {
         const response = await fetch(
-            `http://localhost:3000/leads`
+            `http://localhost:3000/leads?search=${encodeURIComponent(search)}`
         );
 
         const result = await response.json();

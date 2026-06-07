@@ -2,7 +2,9 @@ const lead = require('../models/leadModels.js');
 
 const getLead = async (req, res) => {
     try {
-        const data = await lead.readLead();
+        const searchTerm = req.query.search || "";
+
+        const data = await lead.readLead(searchTerm);
         return res.status(200).json({
             success: true,
             message: "Data Successfully Fetched",
