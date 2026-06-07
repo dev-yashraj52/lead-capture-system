@@ -219,6 +219,10 @@ async function saveNewLead(leadData) {
     try {
         const response = await API.createNewLead(leadData);
 
+        if (response.success == true) {
+            alert(response.message);
+            closeModal();
+        }
         if (response.success == false) {
             showError(emailInput, response.message)
             console.log(response.message)
