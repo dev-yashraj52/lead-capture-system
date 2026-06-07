@@ -160,18 +160,14 @@ function refreshLeads(lead, id) {
     saveButton.addEventListener('click', async () => {
         const selectedStatus = statusDropdown.value;
 
-        await handleSaveStatus(id, selectedStatus, saveButton);
+        await handleSaveStatus(id, lead.status, selectedStatus, saveButton);
     });
 
     deleteButton.addEventListener('click', async () => {
-        await handleDeleteLead(id, tr, deleteButton);
+        await handleDeleteLead(id, lead.status, tr, deleteButton);
     })
 
     leadsTableBody.insertBefore(tr, leadsTableBody.firstChild);
-
-    //update Lead Dashboard Numbers
-    document.getElementById('totalLeadsCount').textContent++;
-    document.getElementById(`${lead.status.toLowerCase()}LeadsCount`).textContent++;
 }
 
 function updateDashboardStats(leads) {
@@ -195,6 +191,17 @@ function updateDashboardStats(leads) {
     document.getElementById('contactedLeadsCount').textContent = contactedCount;
     document.getElementById('qualifiedLeadsCount').textContent = qualifiedCount;
     document.getElementById('lostLeadsCount').textContent = lostCount;
+}
+
+function adjustDashboardCounts(oldStatus, newStatus) {
+    if (oldStatus) {
+        document.getElementById(`${oldStatus.toLowerCase()}LeadsCount`).textContent--;
+        if (!newStatus) document.getElementById('totalLeadsCount').textContent--; // It was a deletion
+    }
+    if (newStatus) {
+        document.getElementById(`${newStatus.toLowerCase()}LeadsCount`).textContent++;
+        if (!oldStatus) document.getElementById('totalLeadsCount').textContent++; // It was a creation
+    }
 }
 
 //API call functions
@@ -250,11 +257,11 @@ async function renderLeads(searchTerm = "") {
             saveButton.addEventListener('click', async () => {
                 const selectedStatus = statusDropdown.value;
 
-                await handleSaveStatus(lead.id, selectedStatus, saveButton);
+                await handleSaveStatus(lead.id, lead.status, selectedStatus, saveButton);
             });
 
             deleteButton.addEventListener('click', async () => {
-                await handleDeleteLead(lead.id, tr, deleteButton);
+                await handleDeleteLead(lead.id, lead.status, tr, deleteButton);
             })
 
             leadsTableBody.appendChild(tr);
@@ -274,7 +281,7 @@ async function renderLeads(searchTerm = "") {
 
 }
 
-async function handleSaveStatus(leadId, newStatus, buttonElement) {
+async function handleSaveStatus(leadId, oldStatus, newStatus, buttonElement) {
     try {
         buttonElement.innerText = "Saving...";
         buttonElement.disabled = true;
@@ -287,6 +294,7 @@ async function handleSaveStatus(leadId, newStatus, buttonElement) {
         if (response.success) {
             buttonElement.innerText = "Save";
             showNotification(response.message, response.success);
+            adjustDashboardCounts(oldStatus, newStatus);
         } else {
             buttonElement.innerText = "Save";
             buttonElement.disabled = false;
@@ -301,7 +309,7 @@ async function handleSaveStatus(leadId, newStatus, buttonElement) {
     }
 }
 
-async function handleDeleteLead(leadId, currentLead, buttonElement) {
+async function handleDeleteLead(leadId, leadStatus, currentLead, buttonElement) {
     try {
         buttonElement.innerText = "Deleting...";
         buttonElement.disabled = true;
@@ -315,6 +323,7 @@ async function handleDeleteLead(leadId, currentLead, buttonElement) {
             buttonElement.disabled = false;
             buttonElement.innerText = "Delete";
             showNotification(response.message, response.success);
+            adjustDashboardCounts(leadStatus, null);
             currentLead.remove();
         } else {
             showNotification(response.message, response.success);
@@ -339,6 +348,7 @@ async function saveNewLead(leadData) {
             showNotification(response.message, response.success);
             console.log(response);
             refreshLeads(leadData, response.data.insertId);
+            adjustDashboardCounts(null, leadData.status);
         } else {
             showNotification(response.message, response.success);
             showError(emailInput, response.message);
