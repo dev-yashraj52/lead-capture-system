@@ -65,15 +65,15 @@ async function renderLeads() {
             </td>
             `;
 
-            const dropdown = tr.querySelector('.status-dropdown');
+            const statusDropdown = tr.querySelector('.status-dropdown');
             const saveButton = tr.querySelector('.save-btn');
 
-            dropdown.addEventListener('change', () => {
+            statusDropdown.addEventListener('change', () => {
                 saveButton.disabled = false; // Enable the save button for this row only!
             });
 
             saveButton.addEventListener('click', async () => {
-                const selectedStatus = dropdown.value;
+                const selectedStatus = statusDropdown.value;
 
                 await handleSaveStatus(lead.id, selectedStatus, saveButton);
             });
