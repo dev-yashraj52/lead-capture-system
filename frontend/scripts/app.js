@@ -61,6 +61,7 @@ async function renderLeads() {
             </td>
             <td>
                 <button class="btn btn-primary btn-small save-btn" disabled>Save</button>
+                <button class="btn btn-warning btn-small delete-btn">Delete</button>
             </td>
             `;
 
@@ -107,5 +108,23 @@ async function handleSaveStatus(leadId, newStatus, buttonElement) {
         buttonElement.innerText = "Save";
         buttonElement.disabled = false;
     }
-    console.log(`Id: ${leadId}, New Status: ${newStatus}, Button: ${buttonElement}`)
+}
+
+async function deleteLead(id) {
+    try {
+        buttonElement.innerText = "Deleting...";
+        buttonElement.disabled = true;
+
+        //added delay for UX 
+        await new Promise(resolve => setTimeout(resolve, 250));
+
+        await API.updateLeadStatus(leadId, { status: newStatus });
+
+        buttonElement.innerText = "Save";
+    } catch (error) {
+        alert("Failed to save status. Try again.");
+        buttonElement.innerText = "Save";
+        buttonElement.disabled = false;
+    }
+
 }
