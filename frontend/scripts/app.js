@@ -67,6 +67,7 @@ async function renderLeads() {
 
             const statusDropdown = tr.querySelector('.status-dropdown');
             const saveButton = tr.querySelector('.save-btn');
+            const deleteButton = tr.querySelector('.delete-btn');
 
             statusDropdown.addEventListener('change', () => {
                 saveButton.disabled = false; // Enable the save button for this row only!
@@ -77,6 +78,10 @@ async function renderLeads() {
 
                 await handleSaveStatus(lead.id, selectedStatus, saveButton);
             });
+
+            deleteButton.addEventListener('click', async () => {
+                await handleDeleteLead(lead.id, tr, deleteButton);
+            })
 
             leadsTableBody.appendChild(tr);
 
@@ -110,7 +115,7 @@ async function handleSaveStatus(leadId, newStatus, buttonElement) {
     }
 }
 
-async function deleteLead(id) {
+async function handleDeleteLead(leadId, currentLead, buttonElement) {
     try {
         buttonElement.innerText = "Deleting...";
         buttonElement.disabled = true;
@@ -118,12 +123,14 @@ async function deleteLead(id) {
         //added delay for UX 
         await new Promise(resolve => setTimeout(resolve, 250));
 
-        await API.updateLeadStatus(leadId, { status: newStatus });
+        await API.deleteLead(leadId);
 
-        buttonElement.innerText = "Save";
+        buttonElement.disabled = false;
+        buttonElement.innerText = "Delete";
+        currentLead.remove();
     } catch (error) {
-        alert("Failed to save status. Try again.");
-        buttonElement.innerText = "Save";
+        alert("Failed to delete status. Try again.");
+        buttonElement.innerText = "Delete";
         buttonElement.disabled = false;
     }
 
