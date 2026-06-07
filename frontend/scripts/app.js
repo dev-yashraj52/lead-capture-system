@@ -24,6 +24,9 @@ cancelBtn.addEventListener('click', closeModal);
 leadForm.addEventListener('submit', handleFormSubmit);
 
 searchBtn.addEventListener('click', executeSearch);
+searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') executeSearch();
+});
 
 function openModal() {
     clearValidationErrors();
@@ -215,6 +218,11 @@ async function renderLeads(searchTerm = "") {
         if (leads.length === 0) {
             leadsTable.style.display = "none";
             noLeadsMessage.style.display = "block";
+            if (searchTerm) {
+                noLeadsMessage.textContent = 'No leads found matching your search parameters.';
+            } else {
+                noLeadsMessage.textContent = 'No leads found. Click "+ Add Lead" to get started!';
+            }
             return;
         }
 
