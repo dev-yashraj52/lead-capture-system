@@ -168,6 +168,33 @@ function refreshLeads(lead, id) {
     })
 
     leadsTableBody.insertBefore(tr, leadsTableBody.firstChild);
+
+    //update Lead Dashboard Numbers
+    document.getElementById('totalLeadsCount').textContent++;
+    document.getElementById(`${lead.status.toLowerCase()}LeadsCount`).textContent++;
+}
+
+function updateDashboardStats(leads) {
+    document.getElementById('totalLeadsCount').textContent = leads.length;
+
+    let newCount = 0;
+    let contactedCount = 0;
+    let qualifiedCount = 0;
+    let lostCount = 0;
+
+    leads.forEach(lead => {
+        const status = lead.status ? lead.status.toLowerCase() : '';
+
+        if (status === 'new') newCount++;
+        else if (status === 'contacted') contactedCount++;
+        else if (status === 'qualified') qualifiedCount++;
+        else if (status === 'lost') lostCount++;
+    });
+
+    document.getElementById('newLeadsCount').textContent = newCount;
+    document.getElementById('contactedLeadsCount').textContent = contactedCount;
+    document.getElementById('qualifiedLeadsCount').textContent = qualifiedCount;
+    document.getElementById('lostLeadsCount').textContent = lostCount;
 }
 
 //API call functions
@@ -175,6 +202,8 @@ async function renderLeads(searchTerm = "") {
     try {
         const response = await API.loadLeads(searchTerm);
         let leads = response.data;
+
+        updateDashboardStats(leads);
 
         if (leads.length === 0) {
             leadsTable.style.display = "none";
