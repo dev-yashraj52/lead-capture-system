@@ -111,7 +111,7 @@ async function renderLeads() {
         const response = await API.loadLeads();
         let leads = response.data;
 
-        if (response.length === 0) {
+        if (leads.length === 18) {
             leadsTable.style.display = "none";
             noLeadsMessage.style.display = "block";
             return;
