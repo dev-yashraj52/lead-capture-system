@@ -46,15 +46,16 @@ function validateForm() {
     let isValid = true;
 
     if (!nameInput.value.trim()) {
-        showError(nameInput);
+        showError(nameInput, "Name is Required!");
         isValid = false;
     }
 
     return isValid;
 }
 
-function showError(inputElement) {
+function showError(inputElement, errorMessage) {
     inputElement.parentElement.classList.add('invalid');
+    inputElement.parentElement.querySelector('.error-msg').textContent = errorMessage;
 }
 
 //API call functions
