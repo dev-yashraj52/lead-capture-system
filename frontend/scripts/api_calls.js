@@ -1,7 +1,7 @@
 export async function loadLeads(search = "") {
     try {
         const response = await fetch(
-            `http://localhost:3000/leads?search=${encodeURIComponent(search)}`
+            `/leads?search=${encodeURIComponent(search)}`
         );
 
         const result = await response.json();
@@ -16,7 +16,7 @@ export async function loadLeads(search = "") {
 export async function createNewLead({ name, email, mobile, company, source, status }) {
     try {
         const response = await fetch(
-            `http://localhost:3000/leads`, {
+            `leads`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export async function createNewLead({ name, email, mobile, company, source, stat
 export async function updateLeadStatus(id, { status }) {
     try {
         const response = await fetch(
-            `http://localhost:3000/leads/${id}/status`, {
+            `/leads/${id}/status`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -61,7 +61,7 @@ export async function updateLeadStatus(id, { status }) {
 export async function deleteLead(id) {
     try {
         const response = await fetch(
-            `http://localhost:3000/leads/${id}`, {
+            `leads/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
